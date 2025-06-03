@@ -1,0 +1,30 @@
+<?php include 'config.php'; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pesan Simpel</title>
+</head>
+<body>
+    <h1>Kirim Pesan</h1>
+    <form action="simpan.php" method="post">
+        Nama: <input type="text" name="nama" required><br><br>
+        Pesan: <textarea name="pesan" required></textarea><br><br>
+        <input type="submit" value="Kirim">
+    </form>
+
+    <h2>Daftar Pesan</h2>
+    <?php
+    $sql = "SELECT nama, isi, waktu FROM pesan ORDER BY waktu DESC";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<p><strong>" . htmlspecialchars($row["nama"]) . "</strong> (" . $row["waktu"] . "):<br>" .
+                 nl2br(htmlspecialchars($row["isi"])) . "</p><hr>";
+        }
+    } else {
+        echo "Belum ada pesan.";
+    }
+    ?>
+</body>
+</html>
